@@ -1,42 +1,62 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <title>Hello World!</title>
+        <title></title>
+        <meta charset="utf-8" />
+		<link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
+        <link href="styles/main.css" rel="stylesheet" />
+        <script src="cordova.js"></script>
+        <script src="kendo/js/jquery.min.js"></script>
+        <script src="kendo/js/kendo.mobile.min.js"></script>
+        <script src="scripts/shoppinglist.js"></script>
     </head>
     <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
+        <div data-role="view" id="tabstrip-scan" data-title="Scan Barcode">
+			<div class="buttonArea">
+				<a data-role="button" id="scanButton" data-icon="camera" data-click="myApp.scan" class="largerButton extraSpace">Scan</a>
+                <div id="scanResult" class="extraSpace" style="font-size: 1.5em; margin: 2em;"></div>
+                <a data-role="button" id="addScanButton" data-icon="add" data-click="addScannedItem" class="largerButton extraSpace" style="display: none;">Add</a>
+			</div>
+        </div>
+        
+        <div data-role="view" id="tabstrip-list" data-title="Shopping List">
+            <div class="buttonArea">
+                <input class="inputBox" type="text" id="txtItem" placeholder="Add New Item" />
+                <a id="addButton" data-role="button" data-click="addItem" data-icon="add" class="largerButton"></a>
+            </div>
+            <div id="itemContainer">
+                <ul id="activeItemList"></ul>
             </div>
         </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript">
-            app.initialize();
+        
+        <div data-role="view" id="tabstrip-done" data-title="Completed">
+            <ul id="completedItemList"></ul>
+            <div class="completedButton">
+                <a data-role="button" data-click="myApp.clearCompleted" class="largerButton extraSpace" style="margin: 1em auto .4em auto;">Clear Completed</a>
+            </div>
+        </div>
+
+        <div data-role="layout" data-id="mobile-tabstrip">
+            <header data-role="header">
+                <div data-role="navbar">
+                    <span data-role="view-title"></span>
+                </div>
+            </header>
+
+            <div data-role="footer">
+                <div data-role="tabstrip">
+                    <a href="#tabstrip-scan" data-icon="camera">Scan</a>
+                    <a href="#tabstrip-list" data-icon="bookmarks">List</a>
+                    <a href="#tabstrip-done" data-icon="cart">Done</a>
+                </div>
+            </div>
+        </div>
+
+        <script id="list-template" type="text/x-kendo-template">
+            <span>#: item_name #<a data-role='detailbutton' data-click='markComplete' data-id='#:id#' data-icon='check'></a></span>
+        </script>
+        <script id="completed-list-template" type="text/x-kendo-template">
+            <span>#: item_name #</span>
         </script>
     </body>
 </html>
